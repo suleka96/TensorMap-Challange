@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
+import * as d3 from 'd3';
 
 @Component({
   selector: 'app-neuralcanvas',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./neuralcanvas.component.css']
 })
 export class NeuralcanvasComponent implements OnInit {
+
+  @Input() public parentData;
 
   constructor() { }
 

@@ -4,17 +4,64 @@
       <div class="list-group list-group-flush">
           <a href="#" class="list-group-item list-group-item-action bg-light">Hidden Layers<br>
               <select (change)="selecHiddenLayers($event.target.value);">
-                  <option value=1>1</option>
+                    <option value=0>0</option>  
+                    <option value=1>1</option>
                   <option value=2>2</option>
                   <option value=3>3</option>
               </select>
           </a>
+          <a *ngIf="hidden1" href="#" class="list-group-item list-group-item-action bg-light">Hidden Layer1 Nodes<br>
+            <select (change)="selecHidden1Nodes($event.target.value);">
+                  <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=3>4</option>
+                <option value=3>5</option>
+            </select>
+        </a>
+        <a *ngIf="hidden2" href="#" class="list-group-item list-group-item-action bg-light">Hidden Layer2 Nodes<br>
+            <select (change)="selecHidden2Nodes($event.target.value);"> 
+                  <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=3>4</option>
+                <option value=3>5</option>
+            </select>
+        </a>
+        <a *ngIf="hidden3" href="#" class="list-group-item list-group-item-action bg-light">Hidden Layer3 Nodes<br>
+            <select (change)="selecHidden3Nodes($event.target.value);">  
+                  <option value=1>1</option>
+                <option value=2>2</option>
+                <option value=3>3</option>
+                <option value=3>4</option>
+                <option value=3>5</option>
+            </select>
+        </a>
           <a href="#" class="list-group-item list-group-item-action bg-light">Neural Net Type<br>
-            <select (change)="selectNNType($event.target.value)">
-                <option value="RNN">RNN</option>
+            <select (change)="selectNNType($event.target.value)">>  
+                    <option value="RNN">RNN</option>
                 <option value="LSTM">LSTM</option>
             </select>
-          </a>       
+          </a>  
+          <a href="#" class="list-group-item list-group-item-action bg-light">Output nodes<br>
+            <select (change)="selectOutputNodes($event.target.value)">
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=3>4</option>
+                    <option value=3>5</option>
+            </select>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action bg-light">{{neuralNetType}} nodes
+            <br>
+            <select (change)="selecnnNodes($event.target.value)">
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=3>4</option>
+                    <option value=3>5</option>
+            </select>
+          </a>                        
           <a href="#" class="list-group-item list-group-item-action bg-light">Learning Rate<br>
               <select (change)="selecLearningRate($event.target.value)">
                   <option value=0.01>0.01</option>
@@ -27,6 +74,13 @@
             <select (change)="selectDataset($event.target.value)">
                 <option value="Stock Price">Stock Price</option>
                 <option value="Enron">Enron</option>
+            </select>
+        </a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Activation<br>
+            <select (change)="selectActivation($event.target.value)">
+                <option *ngIf="probtype1" value="Sigmoid">Sigmoid</option>
+                <option *ngIf="probtype2" value="tanh">Tanh</option>
+                <option *ngIf="probtype2" value="relu">ReLU</option>               
             </select>
         </a>
           <a href="#" class="list-group-item list-group-item-action bg-light">Epoch<br>
@@ -69,69 +123,7 @@
     </nav> 
 
     <div class="container page-content">
-
-            <h1>Heading</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
-              of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
-              of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
-              of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
-              of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
-              of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
-              of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
-              of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
-              of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
-              of Lorem Ipsum.</p>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
-              standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a
-              type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
-              remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
-              Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions
-              of Lorem Ipsum.</p>
-            
+        <app-neuralcanvas [parentData]="allNNdata"></app-neuralcanvas>
     </div>
   </div>
 <div class="bg-light border-left" id="sidebar-wrapper-right">
@@ -157,9 +149,6 @@
                   <a href="#" class=" list-group-item-action bg-light">MAPE:</a><br>
                   <a href="#" class=" list-group-item-action bg-light">RMSPE:</a><br>
               </div>
-            </a>
-                           
+            </a>                           
         </div>
-
-
 </div>
