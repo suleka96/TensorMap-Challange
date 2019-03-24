@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSliderModule} from '@angular/material/slider';
+import { NeuralcanvasComponent } from './components/neuralcanvas/neuralcanvas.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    SidebarComponent
+    SidebarComponent,
+    NeuralcanvasComponent
   ],
   imports: [
     BrowserModule,

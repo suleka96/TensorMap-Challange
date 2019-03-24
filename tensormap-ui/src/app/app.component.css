@@ -1,13 +1,19 @@
 .App-header {
-    text-align: center;
-    background-color: #EB6123;
-    min-height: 10vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(5px + 2vmin);
-    color: white;
-    font-family: 'Titillium Web', sans-serif;
-    
-  }
+  text-align: center;
+  background-color: #EB6123;
+  min-height: 10vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(5px + 2vmin);
+  color: white;
+  font-family: 'Titillium Web', sans-serif;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100% !important;
+  left: 0;
+  z-index: 20;
+  
+}
