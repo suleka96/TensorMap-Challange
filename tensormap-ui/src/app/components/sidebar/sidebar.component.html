@@ -72,11 +72,27 @@
   <div class="bg-light border-right" >
     <div class="sidebar-heading">Output </div>
         <div class="list-group list-group-flush">
-            <a href="#" class="list-group-item list-group-item-action bg-light">Problem Type:</a>
-            
-            <a href="#" class="list-group-item list-group-item-action bg-light">Training loss:</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Epoch:</a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Accuracy:</a>
+            <a href="#" class="list-group-item list-group-item-action bg-light"><b>Problem Type:</b>
+                <span *ngIf=" dataset == 'Enron'">Classification</span>
+                <span *ngIf=" dataset == 'Stock Price'">Regression</span>
+            </a>
+
+            <a href="#" class="list-group-item list-group-item-action bg-light"><b>Training loss:</b></a>
+            <a href="#" class="list-group-item list-group-item-action bg-light"><b>Epoch:</b></a>
+            <a href="#" class="list-group-item list-group-item-action bg-light"><b>Metrics</b>
+              <div *ngIf=" dataset == 'Enron'">  
+              <a href="#" class=" list-group-item-action bg-light">Accuracy:</a><br>
+              <a href="#" class=" list-group-item-action bg-light">f1:</a><br>
+              <a href="#" class=" list-group-item-action bg-light">Precision:</a><br>
+              <a href="#" class=" list-group-item-action bg-light">Recall:</a><br>
+              </div>
+              <div *ngIf=" dataset == 'Stock Price'">  
+                  <a href="#" class=" list-group-item-action bg-light">MAE:</a><br>
+                  <a href="#" class=" list-group-item-action bg-light">RMSE:</a><br>
+                  <a href="#" class=" list-group-item-action bg-light">MAPE:</a><br>
+                  <a href="#" class=" list-group-item-action bg-light">RMSPE:</a><br>
+              </div>
+            </a>
                            
         </div>
 
