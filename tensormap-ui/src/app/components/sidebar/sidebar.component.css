@@ -5,6 +5,10 @@
   #wrapper{
 
   }
+
+  #slider{
+    width: 100px;
+  }
   
   #sidebar-wrapper {
     min-height: 100vh;

@@ -1,15 +1,63 @@
 <div class="d-flex" id="wrapper" >
   <div class="bg-light border-right" id="sidebar-wrapper">
-  <div class="sidebar-heading">Configurations </div>
+  <div class="sidebar-heading"><b>Configurations</b></div>
       <div class="list-group list-group-flush">
-          <a href="#" class="list-group-item list-group-item-action bg-light">Hidden Layers</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Learning Rate</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Epoch</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Batch Size</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Dataset</a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Train/Test Ratio</a> 
-          <a href="#" class="list-group-item list-group-item-action bg-light">Neural Net Type</a>     
-                      
+          <a href="#" class="list-group-item list-group-item-action bg-light">Hidden Layers<br>
+              <select (change)="selecHiddenLayers($event.target.value);">
+                  <option value=1>1</option>
+                  <option value=2>2</option>
+                  <option value=3>3</option>
+              </select>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action bg-light">Neural Net Type<br>
+            <select (change)="selectNNType($event.target.value)">
+                <option value="RNN">"RNN"</option>
+                <option value="LSTM">"LSTM"</option>
+            </select>
+          </a>       
+          <a href="#" class="list-group-item list-group-item-action bg-light">Learning Rate<br>
+              <select (change)="selecLearningRate($event.target.value)">
+                  <option value=0.01>0.01</option>
+                  <option value=0.001>0.001</option>
+                  <option value=0.0001>0.0001</option>
+                  <option value=0.05>0.05</option>
+              </select>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action bg-light">Dataset<br>
+            <select (change)="selectDataset($event.target.value)">
+                <option value="Stock Price">"Stock Price"</option>
+                <option value="Enron">"Enron"</option>
+            </select>
+        </a>
+          <a href="#" class="list-group-item list-group-item-action bg-light">Epoch<br>
+              <mat-slider id="slider"
+              thumbLabel
+              [displayWith]="formatLabel"
+              tickInterval="100"
+              min="10"
+              max="500"
+              (input)="selectEpoch($event)"></mat-slider>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action bg-light">Batch Size<br>
+              <mat-slider id="slider"
+              thumbLabel
+              [displayWith]="formatLabel"
+              tickInterval="10"
+              min="1"
+              max="30"
+              (input)="selectBatchSize($event)"></mat-slider>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action bg-light">Train/Test Ratio
+            <br>  
+            <mat-slider id="slider"
+              thumbLabel
+              [displayWith]="formatLabel"
+              tickInterval="10"
+              min="10"
+              max="90"
+              (input)="selectTrainTestRatio($event)"></mat-slider>
+          </a> 
+          
       </div>
   </div>
   <div id="page-content-wrapper">
@@ -25,11 +73,12 @@
     <div class="sidebar-heading">Output </div>
         <div class="list-group list-group-flush">
             <a href="#" class="list-group-item list-group-item-action bg-light">Problem Type:</a>
+            
             <a href="#" class="list-group-item list-group-item-action bg-light">Training loss:</a>
             <a href="#" class="list-group-item list-group-item-action bg-light">Epoch:</a>
             <a href="#" class="list-group-item list-group-item-action bg-light">Accuracy:</a>
                            
         </div>
-    </div>
+
 
 </div>
