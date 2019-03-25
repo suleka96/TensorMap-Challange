@@ -1,6 +1,6 @@
 import { Component, OnInit,Input } from '@angular/core';
-import * as d3 from 'd3';
-
+import {select,schemeCategory10,scaleOrdinal} from 'd3';
+import { angularMath } from 'angular-ts-math';
 declare var $:any;
 
 @Component({
@@ -10,77 +10,79 @@ declare var $:any;
 })
 export class NeuralcanvasComponent implements OnInit {
 
-  @Input() public parentData;
-
+	// color = scaleOrdinal().range(schemeCategory10)
   inputLayerHeight = 4;
   outputLayerHeight=5;
   hiddenLayersDepths =[3,4];
   hiddenLayersCount =2;
-  networkGraph :any;
-	nodeSize = 15;
-  width :any
-  height =400
-  Math = Math;
-  newFirstLayer:any = [];
-  hiddenLayers: any =[];
-  newGraph :any = {
-    "nodes": []
-  };
+	nodeSize = 17;
+  width :any = 500 ;
+  height = 400;
+
 
   constructor() { }
 
   ngOnInit() {
-    this.width = $("#neuralNet").innerWidth -15;
     this.draw()
   }
 
   draw() {
-		if (!d3.select("svg")[0]) {
+		console.log('in draw')
+		if (!select("svg")[0]) {
 		} else {
 			//clear d3
-			d3.select('svg').remove();
+			select('svg').remove();
 		}
-		var svg = d3.select("#neuralNet").append("svg")
+		var svg = select("#neuralNet").append("svg")
 		.attr("width", this.width)
 		.attr("height", this.height);
 
-		this.networkGraph = this.buildNodeGraph();
+		var networkGraph : any = this.buildNodeGraph();
 		//buildNodeGraph();
-		this.drawGraph(this.networkGraph, svg);
+		this.drawGraph(networkGraph, svg);
 	}
 
 
-  buildNodeGraph(){
-    //construct input layer
+	buildNodeGraph() {
+		var newGraph:any = {
+			"nodes": []
+		};
+
+		//construct input layer
+		var newFirstLayer: any = [];
 		for (var i = 0; i < this.inputLayerHeight; i++) {
-			var newTempLayer = {"label": "i"+i, "layer": 1};
-			this.newFirstLayer.push(newTempLayer);
-    }
-    
-    //hidden layers
-    for (var hiddenLayerLoop = 0; hiddenLayerLoop <this.hiddenLayersCount; hiddenLayerLoop++) {
+			var newTempLayer1 :any = {"label": "i"+i, "layer": 1};
+			newFirstLayer.push(newTempLayer1);
+		}
+
+		//construct hidden layers
+		var hiddenLayers:any = [];
+		for (var hiddenLayerLoop = 0; hiddenLayerLoop < this.hiddenLayersCount; hiddenLayerLoop++) {
 			var newHiddenLayer:any = [];
 			//for the height of this hidden layer
 			for (var i = 0; i < this.hiddenLayersDepths[hiddenLayerLoop]; i++) {
-				var newTempLayer = {"label": "h"+ hiddenLayerLoop + i, "layer": (hiddenLayerLoop+2)};
-				newHiddenLayer.push(newTempLayer);
+				var newTempLayer2:any = {"label": "h"+ hiddenLayerLoop + i, "layer": (hiddenLayerLoop+2)};
+				newHiddenLayer.push(newTempLayer2);
 			}
-			this.hiddenLayers.push(newHiddenLayer);
-    }
+			hiddenLayers.push(newHiddenLayer);
+		}
 
-    //construct output layer
+		//construct output layer
 		var newOutputLayer:any = [];
 		for (var i = 0; i < this.outputLayerHeight; i++) {
-			var newoutTempLayer = {"label": "o"+i, "layer": this.hiddenLayersCount + 2};
-			newOutputLayer.push(newTempLayer);
-    }
-    
-    //add to newGraph
-		var allMiddle = this.newGraph.nodes.concat.apply([], this.hiddenLayers);
-		this.newGraph.nodes = this.newGraph.nodes.concat(this.newFirstLayer, allMiddle, newOutputLayer );
-  }
+			var newTempLayer3 = {"label": "o"+i, "layer": this.hiddenLayersCount + 2};
+			newOutputLayer.push(newTempLayer3);
+		}
 
-  	drawGraph(networkGraph, svg) {
+		//add to newGraph
+		var allMiddle:any = newGraph.nodes.concat.apply([], hiddenLayers);
+		newGraph.nodes = newGraph.nodes.concat(newFirstLayer, allMiddle, newOutputLayer );
+
+		return newGraph;
+	}
+
+	drawGraph(networkGraph, svg) {
+		var color = scaleOrdinal(schemeCategory10);
 		var graph = networkGraph;
 		var nodes = graph.nodes;
 
@@ -139,13 +141,14 @@ export class NeuralcanvasComponent implements OnInit {
 		var circle = node.append("circle")
 		.attr("class", "node")
 		.attr("r", this.nodeSize)
-    .style("fill", function(d) { return color(d.layer); });
-    
-    node.append("text")
+		.style("fill", function(d) { console.log(color); return color(d.layer); });
+
+
+
+		node.append("text")
 		.attr("dx", "-.35em")
 		.attr("dy", ".35em")
 		.attr("font-size", ".6em")
 		.text(function(d) { return d.label; });
 	}
-
 }
