@@ -1,6 +1,9 @@
 import { Component, OnInit,Input } from '@angular/core';
 import {select,schemeCategory10,scaleOrdinal} from 'd3';
-import { angularMath } from 'angular-ts-math';
+import { NnConfigService } from '../../services/nn-config.service';
+import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
+import { SimpleChanges } from '@angular/core';
+
 declare var $:any;
 
 @Component({
@@ -8,21 +11,34 @@ declare var $:any;
   templateUrl: './neuralcanvas.component.html',
   styleUrls: ['./neuralcanvas.component.css']
 })
-export class NeuralcanvasComponent implements OnInit {
+export class NeuralcanvasComponent implements OnInit,OnChanges {
 
-	// color = scaleOrdinal().range(schemeCategory10)
-  inputLayerHeight = 4;
-  outputLayerHeight=5;
-  hiddenLayersDepths =[3,4];
-  hiddenLayersCount =2;
-	nodeSize = 17;
-  width :any = 500 ;
-  height = 400;
+inputLayerHeight;
+outputLayerHeight;
+hiddenLayersDepths;
+hiddenLayersCount;
+nodeSize = 17;
+width :any = 500 ;
+height = 400;
+hidden1Nodes;
+hidden2Nodes;
+hidden3Nodes;
 
-
-  constructor() { }
+  constructor(private nnService:NnConfigService) { }
 
   ngOnInit() {
+	this.nnService.currenthiddenlayers.subscribe(hidden => this.hiddenLayersCount = hidden);
+      this.nnService.currenthidden1Nodes.subscribe(h1 => this.hidden1Nodes =h1 );
+      this.nnService.currenthidden2Nodes.subscribe(h2 => this.hidden2Nodes=h2);
+      this.nnService.currenthidden3Nodes.subscribe(h3 => this.hidden3Nodes=h3);
+      this.nnService.currentoutputNodes.subscribe(out => this.outputLayerHeight=out);
+	  this.nnService.currentnnNodes.subscribe(nn => this.inputLayerHeight = nn); 
+	  this.hiddenLayersDepths = [this.hidden1Nodes,this.hidden2Nodes,this.hidden3Nodes]
+	  
+    this.draw()
+  }
+
+  ngOnChanges(changes: SimpleChanges){
     this.draw()
   }
 
@@ -119,8 +135,9 @@ export class NeuralcanvasComponent implements OnInit {
 			}
 		}).filter(function(d) { return typeof d !== "undefined"; });
 
+
 		// draw links
-		var link = svg.selectAll(".link")
+		var link:any = svg.selectAll(".link")
 		.data(links)
 		.enter().append("line")
 		.attr("class", "link")
@@ -128,7 +145,7 @@ export class NeuralcanvasComponent implements OnInit {
 		.attr("y1", function(d) { return nodes[d.source].y; })
 		.attr("x2", function(d) { return nodes[d.target].x; })
 		.attr("y2", function(d) { return nodes[d.target].y; })
-		.style("stroke-width", function(d) { return Math.sqrt(d.value); });
+		.style("stroke-width", function(d) {return Math.sqrt(d.value); });
 
 		// draw nodes
 		var node = svg.selectAll(".node")
@@ -141,7 +158,7 @@ export class NeuralcanvasComponent implements OnInit {
 		var circle = node.append("circle")
 		.attr("class", "node")
 		.attr("r", this.nodeSize)
-		.style("fill", function(d) { console.log(color); return color(d.layer); });
+		.style("fill", function(d) { return color(d.layer); });
 
 
 

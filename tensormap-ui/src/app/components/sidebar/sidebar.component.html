@@ -3,7 +3,7 @@
   <div class="sidebar-heading"><b>Configurations</b></div>
       <div class="list-group list-group-flush">
           <a href="#" class="list-group-item list-group-item-action bg-light">Hidden Layers<br>
-              <select (change)="selecHiddenLayers($event.target.value);">
+              <select [(ngModel)]="hiddenlayer" (change)="selecHiddenLayers($event.target.value);">
                     <option value=0>0</option>  
                     <option value=1>1</option>
                   <option value=2>2</option>
@@ -12,7 +12,8 @@
           </a>
           <a *ngIf="hidden1" href="#" class="list-group-item list-group-item-action bg-light">Hidden Layer1 Nodes<br>
             <select (change)="selecHidden1Nodes($event.target.value);">
-                  <option value=1>1</option>
+                <option value=1>0</option> 
+                <option value=1>1</option>
                 <option value=2>2</option>
                 <option value=3>3</option>
                 <option value=3>4</option>
@@ -21,7 +22,8 @@
         </a>
         <a *ngIf="hidden2" href="#" class="list-group-item list-group-item-action bg-light">Hidden Layer2 Nodes<br>
             <select (change)="selecHidden2Nodes($event.target.value);"> 
-                  <option value=1>1</option>
+                <option value=1>0</option> 
+                <option value=1>1</option>
                 <option value=2>2</option>
                 <option value=3>3</option>
                 <option value=3>4</option>
@@ -30,7 +32,8 @@
         </a>
         <a *ngIf="hidden3" href="#" class="list-group-item list-group-item-action bg-light">Hidden Layer3 Nodes<br>
             <select (change)="selecHidden3Nodes($event.target.value);">  
-                  <option value=1>1</option>
+                <option value=1>0</option> 
+                <option value=1>1</option>
                 <option value=2>2</option>
                 <option value=3>3</option>
                 <option value=3>4</option>
@@ -123,7 +126,7 @@
     </nav> 
 
     <div class="container page-content">
-        <app-neuralcanvas></app-neuralcanvas>
+        <app-neuralcanvas [hiddenlayer]="hiddenlayer"></app-neuralcanvas>
     </div>
   </div>
 <div class="bg-light border-left" id="sidebar-wrapper-right">
@@ -133,9 +136,6 @@
                 <span *ngIf=" dataset == 'Enron'">Classification</span>
                 <span *ngIf=" dataset == 'Stock Price'">Regression</span>
             </a>
-
-            <a href="#" class="list-group-item list-group-item-action bg-light">Training loss:<br></a>
-            <a href="#" class="list-group-item list-group-item-action bg-light">Epoch:</a>
             <a href="#" class="list-group-item list-group-item-action bg-light">Metrics
               <div *ngIf=" dataset == 'Enron'">  
               <a href="#" class=" list-group-item-action bg-light">Accuracy:</a><br>

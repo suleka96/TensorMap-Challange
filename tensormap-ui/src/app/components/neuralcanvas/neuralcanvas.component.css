@@ -1,17 +1,3 @@
-/* text {
-    pointer-events: none;
-  }
-  
-  .node:hover {
-    stroke: #999;
-    stroke-opacity: .6;
-    stroke-width: 4px;
-  } */
-  
-  .link {
-    stroke: rgb(12, 12, 12);
-    stroke-opacity: .6;
-  }
   
 
 
