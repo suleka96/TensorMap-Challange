@@ -34,7 +34,6 @@ hidden3Nodes= 0;
 		});
 	  this.nnService.currenthidden1Nodes.subscribe(h1 => {
 		  this.hidden1Nodes =h1; 
-		  console.log("fuckalbitchl");
 		  this.adjustHiddenLayerDepth();		 
 		  this.draw()
 	});
@@ -53,7 +52,6 @@ hidden3Nodes= 0;
   }
 
   adjustHiddenLayerDepth(){
-	console.log("fuckall");
 	console.log(this.hiddenLayersCount);
 
 	switch(this.hiddenLayersCount) { 
@@ -63,7 +61,6 @@ hidden3Nodes= 0;
 		   break; 
 		} 
 		case "2": { 
-			console.log("Good");
 			this.hiddenLayersDepths = [this.hidden1Nodes,this.hidden2Nodes,0];
 			
 			break; 
@@ -74,19 +71,16 @@ hidden3Nodes= 0;
 		 } 
 		 case "0": { 
 			this.hiddenLayersDepths = [0,0,0]; 
+		this.nnService.changeHidden1Nodes(1);
+		this.nnService.changeHidden2Nodes(1);
+		this.nnService.changeHidden3Nodes(1);
 			break; 
 		 } 			
 	 }
-	 console.log(this.hiddenLayersDepths); 
   }
 
   draw() {
 
-	console.log("fuckalljejvnekfvjnj");
-	console.log(this.hiddenLayersCount);
-	console.log(this.hiddenLayersDepths); 
-		// if (!select("svg")[0]) {
-		// } 
 		select("svg").remove();
 		// svg.selectAll("*").remove();
 		var svg = select("#neuralNet").append("svg")
