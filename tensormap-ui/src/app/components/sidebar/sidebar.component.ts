@@ -16,19 +16,19 @@ export class SidebarComponent implements OnInit {
   hidden3 = false;
   probtype1 = false;
   probtype2 = true;
-  activation ;
-  hiddenlayer ;
-  learningRate;
-  epoch;
-  dataset;
-  neuralNetType ;
-  trainTestRatio;
-  batchSize;
-  hidden1Nodes;
-  hidden2Nodes;
-  hidden3Nodes;
-  outputNodes;
-  nnNodes;
+  activation = "Tanh" ;
+  hiddenlayer = 0;
+  learningRate = 0.01;
+  epoch = 10 ;
+  dataset = "Stock Price";
+  neuralNetType = "RNN" ;
+  trainTestRatio = 10;
+  batchSize = 1;
+  hidden1Nodes = 1;
+  hidden2Nodes = 1;
+  hidden3Nodes = 1;
+  outputNodes = 1;
+  nnNodes = 1;
 
   constructor(private nnService:NnConfigService) { 
     
@@ -36,20 +36,6 @@ export class SidebarComponent implements OnInit {
   
 
   ngOnInit() {
-      this.nnService.currenthiddenlayers.subscribe(hidden =>this.hiddenlayer =hidden);
-      this.nnService.currentactivation.subscribe(act =>this.activation = act );
-      this.nnService.currentbatchSize.subscribe(bs =>this.batchSize = bs );
-      this.nnService.currentdataset.subscribe(data => this.dataset= data);
-      this.nnService.currentepoch.subscribe(epoch =>this.epoch = epoch);
-      this.nnService.currenttrainTestRatio.subscribe(ttr => this.trainTestRatio = ttr );
-      this.nnService.currenthidden1Nodes.subscribe(h1 =>this.hidden1Nodes=h1 );
-      this.nnService.currenthidden2Nodes.subscribe(h2 =>this.hidden2Nodes= h2);
-      this.nnService.currenthidden3Nodes.subscribe(h3 =>this.hidden3Nodes=h3 );
-      this.nnService.currentlearningRate.subscribe(lr =>this.learningRate= lr);
-      this.nnService.currentneuralNetType.subscribe(nnt => this.neuralNetType=nnt );
-      this.nnService.currentoutputNodes.subscribe(out =>this.outputNodes= out);
-      this.nnService.currentnnNodes.subscribe(nn => this.nnNodes= nn);   
-
     $("#menu-toggle").click(function(e) {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");

@@ -1,8 +1,7 @@
 import { Component, OnInit,Input } from '@angular/core';
 import {select,schemeCategory10,scaleOrdinal} from 'd3';
 import { NnConfigService } from '../../services/nn-config.service';
-import { OnChanges } from '@angular/core/src/metadata/lifecycle_hooks';
-import { SimpleChanges } from '@angular/core';
+import { Alert } from 'selenium-webdriver';
 
 declare var $:any;
 
@@ -11,44 +10,85 @@ declare var $:any;
   templateUrl: './neuralcanvas.component.html',
   styleUrls: ['./neuralcanvas.component.css']
 })
-export class NeuralcanvasComponent implements OnInit,OnChanges {
+export class NeuralcanvasComponent implements OnInit {
 
-inputLayerHeight;
-outputLayerHeight;
-hiddenLayersDepths;
-hiddenLayersCount;
+inputLayerHeight=1;
+outputLayerHeight=1;
+hiddenLayersDepths=[0];
+hiddenLayersCount:any=0;
 nodeSize = 17;
 width :any = 500 ;
 height = 400;
-hidden1Nodes;
-hidden2Nodes;
-hidden3Nodes;
+hidden1Nodes = 0;
+hidden2Nodes = 0;
+hidden3Nodes= 0;
 
   constructor(private nnService:NnConfigService) { }
 
   ngOnInit() {
-	this.nnService.currenthiddenlayers.subscribe(hidden => this.hiddenLayersCount = hidden);
-      this.nnService.currenthidden1Nodes.subscribe(h1 => this.hidden1Nodes =h1 );
-      this.nnService.currenthidden2Nodes.subscribe(h2 => this.hidden2Nodes=h2);
-      this.nnService.currenthidden3Nodes.subscribe(h3 => this.hidden3Nodes=h3);
-      this.nnService.currentoutputNodes.subscribe(out => this.outputLayerHeight=out);
-	  this.nnService.currentnnNodes.subscribe(nn => this.inputLayerHeight = nn); 
-	  this.hiddenLayersDepths = [this.hidden1Nodes,this.hidden2Nodes,this.hidden3Nodes]
-	  
-    this.draw()
+	this.draw()
+	this.nnService.currenthiddenlayers.subscribe(hidden => {
+		this.hiddenLayersCount = hidden;
+		this.adjustHiddenLayerDepth();
+		this.draw()
+		});
+	  this.nnService.currenthidden1Nodes.subscribe(h1 => {
+		  this.hidden1Nodes =h1; 
+		  console.log("fuckalbitchl");
+		  this.adjustHiddenLayerDepth();		 
+		  this.draw()
+	});
+	  this.nnService.currenthidden2Nodes.subscribe(h2 => {
+		  this.hidden2Nodes=h2;
+		  this.adjustHiddenLayerDepth();
+		  this.draw();
+	});
+      this.nnService.currenthidden3Nodes.subscribe(h3 => {
+		  this.hidden3Nodes=h3;
+		  this.adjustHiddenLayerDepth();
+		  this.draw();
+		});
+      this.nnService.currentoutputNodes.subscribe(out => {this.outputLayerHeight= out; this.draw()});
+	  this.nnService.currentnnNodes.subscribe(nn => {this.inputLayerHeight = nn; this.draw()}); 	    
   }
 
-  ngOnChanges(changes: SimpleChanges){
-    this.draw()
+  adjustHiddenLayerDepth(){
+	console.log("fuckall");
+	console.log(this.hiddenLayersCount);
+
+	switch(this.hiddenLayersCount) { 
+		
+		case "1": { 
+			this.hiddenLayersDepths = [this.hidden1Nodes,0,0]; 
+		   break; 
+		} 
+		case "2": { 
+			console.log("Good");
+			this.hiddenLayersDepths = [this.hidden1Nodes,this.hidden2Nodes,0];
+			
+			break; 
+		} 
+		case "3": { 
+			this.hiddenLayersDepths = [this.hidden1Nodes,this.hidden2Nodes,this.hidden3Nodes];
+ 			break; 
+		 } 
+		 case "0": { 
+			this.hiddenLayersDepths = [0,0,0]; 
+			break; 
+		 } 			
+	 }
+	 console.log(this.hiddenLayersDepths); 
   }
 
   draw() {
-		console.log('in draw')
-		if (!select("svg")[0]) {
-		} else {
-			//clear d3
-			select('svg').remove();
-		}
+
+	console.log("fuckalljejvnekfvjnj");
+	console.log(this.hiddenLayersCount);
+	console.log(this.hiddenLayersDepths); 
+		// if (!select("svg")[0]) {
+		// } 
+		select("svg").remove();
+		// svg.selectAll("*").remove();
 		var svg = select("#neuralNet").append("svg")
 		.attr("width", this.width)
 		.attr("height", this.height);
@@ -86,13 +126,17 @@ hidden3Nodes;
 		//construct output layer
 		var newOutputLayer:any = [];
 		for (var i = 0; i < this.outputLayerHeight; i++) {
-			var newTempLayer3 = {"label": "o"+i, "layer": this.hiddenLayersCount + 2};
+			var newTempLayer3: any = {"label": "o"+i, "layer": +this.hiddenLayersCount + 2};
 			newOutputLayer.push(newTempLayer3);
 		}
+		
 
 		//add to newGraph
 		var allMiddle:any = newGraph.nodes.concat.apply([], hiddenLayers);
 		newGraph.nodes = newGraph.nodes.concat(newFirstLayer, allMiddle, newOutputLayer );
+
+		console.log(newGraph.nodes)
+		console.log(this.outputLayerHeight)
 
 		return newGraph;
 	}

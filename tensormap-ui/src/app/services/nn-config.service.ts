@@ -27,13 +27,13 @@ export class NnConfigService {
   public batchSize =new BehaviorSubject(30)
   currentbatchSize = this.batchSize.asObservable();
 
-  public hidden1Nodes =new BehaviorSubject(0)
+  public hidden1Nodes =new BehaviorSubject(1)
   currenthidden1Nodes = this.hidden1Nodes.asObservable();
 
-  public hidden2Nodes =new BehaviorSubject(0)
+  public hidden2Nodes =new BehaviorSubject(1)
   currenthidden2Nodes = this.hidden2Nodes.asObservable();
 
-  public hidden3Nodes =new BehaviorSubject(0)
+  public hidden3Nodes =new BehaviorSubject(1)
   currenthidden3Nodes = this.hidden3Nodes.asObservable();
 
   public outputNodes =new BehaviorSubject(1)

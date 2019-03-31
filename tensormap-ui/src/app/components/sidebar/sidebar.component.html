@@ -2,8 +2,16 @@
   <div class="bg-light border-right" id="sidebar-wrapper">
   <div class="sidebar-heading"><b>Configurations</b></div>
       <div class="list-group list-group-flush">
-          <a href="#" class="list-group-item list-group-item-action bg-light">Hidden Layers<br>
-              <select [(ngModel)]="hiddenlayer" (change)="selecHiddenLayers($event.target.value);">
+            <a href="#" class="list-group-item list-group-item-action bg-light">{{neuralNetType}} nodes
+                    <br>
+                    <select (change)="selecnnNodes($event.target.value)">
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                    </select>
+                  </a>      
+        <a href="#" class="list-group-item list-group-item-action bg-light">Hidden Layers<br>
+              <select  (change)="selecHiddenLayers($event.target.value);">
                     <option value=0>0</option>  
                     <option value=1>1</option>
                   <option value=2>2</option>
@@ -12,59 +20,38 @@
           </a>
           <a *ngIf="hidden1" href="#" class="list-group-item list-group-item-action bg-light">Hidden Layer1 Nodes<br>
             <select (change)="selecHidden1Nodes($event.target.value);">
-                <option value=1>0</option> 
-                <option value=1>1</option>
+                    <option value=1>1</option>
                 <option value=2>2</option>
                 <option value=3>3</option>
-                <option value=3>4</option>
-                <option value=3>5</option>
             </select>
         </a>
         <a *ngIf="hidden2" href="#" class="list-group-item list-group-item-action bg-light">Hidden Layer2 Nodes<br>
             <select (change)="selecHidden2Nodes($event.target.value);"> 
-                <option value=1>0</option> 
-                <option value=1>1</option>
+                 <option value=1>1</option>
                 <option value=2>2</option>
                 <option value=3>3</option>
-                <option value=3>4</option>
-                <option value=3>5</option>
             </select>
         </a>
         <a *ngIf="hidden3" href="#" class="list-group-item list-group-item-action bg-light">Hidden Layer3 Nodes<br>
             <select (change)="selecHidden3Nodes($event.target.value);">  
-                <option value=1>0</option> 
-                <option value=1>1</option>
+                 <option value=1>1</option>
                 <option value=2>2</option>
                 <option value=3>3</option>
-                <option value=3>4</option>
-                <option value=3>5</option>
             </select>
         </a>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Output nodes<br>
+            <select (change)="selectOutputNodes($event.target.value)">
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+            </select>
+          </a>  
           <a href="#" class="list-group-item list-group-item-action bg-light">Neural Net Type<br>
             <select (change)="selectNNType($event.target.value)">>  
                     <option value="RNN">RNN</option>
                 <option value="LSTM">LSTM</option>
             </select>
-          </a>  
-          <a href="#" class="list-group-item list-group-item-action bg-light">Output nodes<br>
-            <select (change)="selectOutputNodes($event.target.value)">
-                    <option value=1>1</option>
-                    <option value=2>2</option>
-                    <option value=3>3</option>
-                    <option value=3>4</option>
-                    <option value=3>5</option>
-            </select>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">{{neuralNetType}} nodes
-            <br>
-            <select (change)="selecnnNodes($event.target.value)">
-                    <option value=1>1</option>
-                    <option value=2>2</option>
-                    <option value=3>3</option>
-                    <option value=3>4</option>
-                    <option value=3>5</option>
-            </select>
-          </a>                        
+          </a>                    
           <a href="#" class="list-group-item list-group-item-action bg-light">Learning Rate<br>
               <select (change)="selecLearningRate($event.target.value)">
                   <option value=0.01>0.01</option>
@@ -126,7 +113,7 @@
     </nav> 
 
     <div class="container page-content">
-        <app-neuralcanvas [hiddenlayer]="hiddenlayer"></app-neuralcanvas>
+        <app-neuralcanvas ></app-neuralcanvas>
     </div>
   </div>
 <div class="bg-light border-left" id="sidebar-wrapper-right">
