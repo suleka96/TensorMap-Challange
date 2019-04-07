@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ArrayType } from '@angular/compiler/src/output/output_ast';
 import { NnConfigService } from '../../services/nn-config.service';
+import { DataExchnageService } from '../../services/data-exchnage.service';
 
 declare var $:any;
 
@@ -29,8 +30,9 @@ export class SidebarComponent implements OnInit {
   hidden3Nodes = 1;
   outputNodes = 1;
   nnNodes = 1;
+  processingStatus = " Idle"
 
-  constructor(private nnService:NnConfigService) { 
+  constructor(private nnService:NnConfigService,private dataExchange:DataExchnageService) { 
     
   }
   
@@ -60,6 +62,12 @@ export class SidebarComponent implements OnInit {
     this.nnService.changeDataset(val)
     this.dataset=val
     this.showactivation()
+    if (val == "Stock Price"){
+      this.nnService.changeOutputNodes(1)
+    }
+    else if(val == "20 News Groups"){
+      this.nnService.changeOutputNodes(3)
+    }
   }
   selectNNType(val: any){
     this.nnService.changeNeuralNetType(val)
@@ -125,12 +133,35 @@ export class SidebarComponent implements OnInit {
       this.probtype1=false
       this.probtype2=true
     }
-    else if(this.dataset == "Enron"){
+    else if(this.dataset == "20 News Groups"){
       this.probtype1=true
       this.probtype2=false
     }
   }
 
+  sendRNNData(event){
+    this.processingStatus = "Processing"
+
+    var object = {};
+    object['rnnNodes'] = this.nnNodes;
+    object['hiddenLayerNum'] = this.hiddenlayer;
+    object['hLayer1'] = this.hidden1Nodes;
+    object['hLayer2'] = this.hidden2Nodes;
+    object['hLayer3'] = this.hidden3Nodes;
+    object['outputLayer'] = this.outputNodes;
+    object['nnType'] = this.neuralNetType;
+    object['learningRate'] = this.learningRate;
+    object['dataset'] = this.dataset;
+    object['activation'] = this.activation;
+    object['epoch'] = this.epoch;
+    object['batchSize'] = this.batchSize;
+    object['trainTestRatio'] = this.trainTestRatio;
+
+    this.dataExchange.sendPostRequest(object).subscribe(res => {
+      this.processingStatus = "Idle"
+      console.log(res)
+      }); 
+  }
 
 
 }

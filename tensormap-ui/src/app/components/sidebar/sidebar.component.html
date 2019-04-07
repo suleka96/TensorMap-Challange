@@ -2,6 +2,12 @@
   <div class="bg-light border-right" id="sidebar-wrapper">
   <div class="sidebar-heading"><b>Configurations</b></div>
       <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action bg-light">Dataset<br>
+                <select (change)="selectDataset($event.target.value)">
+                    <option value="Stock Price">Stock Price</option>
+                    <option value="20 News Groups">20 News Groups</option>
+                </select>
+            </a>
             <a href="#" class="list-group-item list-group-item-action bg-light">{{neuralNetType}} nodes
                     <br>
                     <select (change)="selecnnNodes($event.target.value)">
@@ -41,9 +47,8 @@
         </a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Output nodes<br>
             <select (change)="selectOutputNodes($event.target.value)">
-                    <option value=1>1</option>
-                    <option value=2>2</option>
-                    <option value=3>3</option>
+                    <option *ngIf=" dataset == 'Stock Price'" value=1>1</option>
+                    <option *ngIf=" dataset == '20 News Groups'" value=3>3</option>
             </select>
           </a>  
           <a href="#" class="list-group-item list-group-item-action bg-light">Neural Net Type<br>
@@ -60,12 +65,6 @@
                   <option value=0.05>0.05</option>
               </select>
           </a>
-          <a href="#" class="list-group-item list-group-item-action bg-light">Dataset<br>
-            <select (change)="selectDataset($event.target.value)">
-                <option value="Stock Price">Stock Price</option>
-                <option value="Enron">Enron</option>
-            </select>
-        </a>
         <a href="#" class="list-group-item list-group-item-action bg-light">Activation<br>
             <select (change)="selectActivation($event.target.value)">
                 <option *ngIf="probtype1" value="Sigmoid">Sigmoid</option>
@@ -78,17 +77,17 @@
               thumbLabel
               [displayWith]="formatLabel"
               tickInterval="100"
-              min="10"
-              max="500"
+              min="2"
+              max="10"
               (input)="selectEpoch($event)"></mat-slider>
           </a>
           <a href="#" class="list-group-item list-group-item-action bg-light">Batch Size<br>
               <mat-slider id="slider"
               thumbLabel
               [displayWith]="formatLabel"
-              tickInterval="10"
-              min="1"
-              max="30"
+              tickInterval="5"
+              min="40"
+              max="70"
               (input)="selectBatchSize($event)"></mat-slider>
           </a>
           <a href="#" class="list-group-item list-group-item-action bg-light">Train/Test Ratio
@@ -108,7 +107,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom sub-menu">
         <div class="btn-group" role="group" aria-label="Basic example">
             <button class="btn btn-secondary" id="menu-toggle">Toggle Menu</button>
-            <button class="btn btn-secondary" id="menu-toggle">Execute</button>
+            <button class="btn btn-secondary" id="menu-toggle" (click)="sendRNNData()">Execute</button>            
         </div>
     </nav> 
 
@@ -119,12 +118,21 @@
 <div class="bg-light border-left" id="sidebar-wrapper-right">
     <div class="sidebar-heading"><b>Output</b> </div>
     <div class="list-group list-group-flush">
+            <a href="#" class="list-group-item list-group-item-action bg-light"> Status:{{processingStatus}}<br>
+            </a>
             <a href="#" class="list-group-item list-group-item-action bg-light">Problem Type:<br>
-                <span *ngIf=" dataset == 'Enron'">Classification</span>
+                <span *ngIf=" dataset == '20 News Groups'">Classification</span>
                 <span *ngIf=" dataset == 'Stock Price'">Regression</span>
             </a>
+            <a href="#" class="list-group-item list-group-item-action bg-light">Problem Description:<br>
+                <span *ngIf=" dataset == '20 News Groups'">Classifies news articles into
+                    <br>
+                    politics,sports and religion
+                </span>
+                <span *ngIf=" dataset == 'Stock Price'">Forecasts Stock Price</span>
+            </a>
             <a href="#" class="list-group-item list-group-item-action bg-light">Metrics
-              <div *ngIf=" dataset == 'Enron'">  
+              <div *ngIf=" dataset == '20 News Groups'">  
               <a href="#" class=" list-group-item-action bg-light">Accuracy:</a><br>
               <a href="#" class=" list-group-item-action bg-light">f1:</a><br>
               <a href="#" class=" list-group-item-action bg-light">Precision:</a><br>

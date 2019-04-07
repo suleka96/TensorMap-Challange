@@ -7,6 +7,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSliderModule} from '@angular/material/slider';
 import { NeuralcanvasComponent } from './components/neuralcanvas/neuralcanvas.component';
+import { HttpClientModule  } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -18,7 +20,8 @@ import { NeuralcanvasComponent } from './components/neuralcanvas/neuralcanvas.co
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    MatSliderModule
+    MatSliderModule,
+    HttpClientModule 
   ],
   providers: [],
   bootstrap: [AppComponent]
