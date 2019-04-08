@@ -11,9 +11,9 @@ from django.views.decorators.csrf import csrf_exempt
 # import create_graph
 import pandas as pd
 import tensorflow as tf
-import numpy as np
-import news20
-import stockPred
+import numpy as np 
+# from .news20 import news20
+# from .stockPred import stockPred
 
 
 @csrf_exempt
@@ -23,13 +23,22 @@ def RNNConfigView(request):
         netInfo = JSONParser().parse(request)
         # netInfo_serialized = ConfigSerializer(netInfo)
 
-        if netInfo['dataset'] == "Stock Price":
-           resObj = stockPred.RunModelStock(netInfo)
+        # if netInfo['dataset'] == "Stock Price":
+        #    resObj = stockPred.RunModelStock(netInfo)
         
-        elif netInfo['dataset'] == "20 News Groups":
-          resObj =  news20.RunModel20News(netInfo)        
+        # elif netInfo['dataset'] == "20 News Groups":
+        #   resObj =  news20.RunModel20News(netInfo)   
+        # 
+
+        resObj = {}
+        resObj['f1'] = None
+        resObj['precision'] = None
+        resObj['recall'] = None
+        resObj['accuracy'] = None
+        resObj['RMSE'] = 1
+        resObj['MAE'] =1
+        resObj['MAPE'] = 2
+        resObj['RMSPE'] = 1    
         
         res_serialized = ResultSerializer(resObj)        
-        # metric_info = create_graph.runGraph(netInfo)
         return  JsonResponse(res_serialized.data, safe=False)
-        # return HttpResponse(netInfo["rnnNodes"])

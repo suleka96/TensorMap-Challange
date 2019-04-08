@@ -65,11 +65,10 @@
                   <option value=0.05>0.05</option>
               </select>
           </a>
-        <a href="#" class="list-group-item list-group-item-action bg-light">Activation<br>
+        <a href="#" class="list-group-item list-group-item-action bg-light">Hidden Layer Activations<br>
             <select (change)="selectActivation($event.target.value)">
-                <option *ngIf="probtype1" value="Sigmoid">Sigmoid</option>
-                <option *ngIf="probtype2" value="tanh">Tanh</option>
-                <option *ngIf="probtype2" value="relu">ReLU</option>               
+                <option  value="tanh">Tanh</option>
+                <option  value="relu">ReLU</option>               
             </select>
         </a>
           <a href="#" class="list-group-item list-group-item-action bg-light">Epoch<br>
@@ -133,16 +132,16 @@
             </a>
             <a href="#" class="list-group-item list-group-item-action bg-light">Metrics
               <div *ngIf=" dataset == '20 News Groups'">  
-              <a href="#" class=" list-group-item-action bg-light">Accuracy:</a><br>
-              <a href="#" class=" list-group-item-action bg-light">f1:</a><br>
-              <a href="#" class=" list-group-item-action bg-light">Precision:</a><br>
-              <a href="#" class=" list-group-item-action bg-light">Recall:</a><br>
+              <a href="#" class=" list-group-item-action bg-light">Accuracy: {{accuracy}}</a><br>
+              <a href="#" class=" list-group-item-action bg-light">f1: {{f1}}</a><br>
+              <a href="#" class=" list-group-item-action bg-light">Precision: {{precision}}</a><br>
+              <a href="#" class=" list-group-item-action bg-light">Recall: {{recall}}</a><br>
               </div>
               <div *ngIf=" dataset == 'Stock Price'">  
-                  <a href="#" class=" list-group-item-action bg-light">MAE:</a><br>
-                  <a href="#" class=" list-group-item-action bg-light">RMSE:</a><br>
-                  <a href="#" class=" list-group-item-action bg-light">MAPE:</a><br>
-                  <a href="#" class=" list-group-item-action bg-light">RMSPE:</a><br>
+                  <a href="#" class=" list-group-item-action bg-light">MAE: {{MAE}}</a><br>
+                  <a href="#" class=" list-group-item-action bg-light">RMSE: {{RMSE}}</a><br>
+                  <a href="#" class=" list-group-item-action bg-light">MAPE: {{MAPE}}</a><br>
+                  <a href="#" class=" list-group-item-action bg-light">RMSPE: {{RMSPE}}</a><br>
               </div>
             </a>                           
         </div>

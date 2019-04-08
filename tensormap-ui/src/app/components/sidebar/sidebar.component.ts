@@ -15,8 +15,14 @@ export class SidebarComponent implements OnInit {
   hidden1 = false;
   hidden2 = false;
   hidden3 = false;
-  probtype1 = false;
-  probtype2 = true;
+  f1 :any;
+  precision:any;
+  recall:any;
+  accuracy:any;
+  RMSE:any;
+  MAE:any;
+  MAPE:any;
+  RMSPE:any;
   activation = "Tanh" ;
   hiddenlayer = 0;
   learningRate = 0.01;
@@ -61,7 +67,6 @@ export class SidebarComponent implements OnInit {
   selectDataset(val: any){
     this.nnService.changeDataset(val)
     this.dataset=val
-    this.showactivation()
     if (val == "Stock Price"){
       this.nnService.changeOutputNodes(1)
     }
@@ -128,16 +133,7 @@ export class SidebarComponent implements OnInit {
       this.hidden3=false
     }
   }
-  showactivation(){
-    if(this.dataset == "Stock Price"){
-      this.probtype1=false
-      this.probtype2=true
-    }
-    else if(this.dataset == "20 News Groups"){
-      this.probtype1=true
-      this.probtype2=false
-    }
-  }
+
 
   sendRNNData(event){
     this.processingStatus = "Processing"
@@ -159,7 +155,15 @@ export class SidebarComponent implements OnInit {
 
     this.dataExchange.sendPostRequest(object).subscribe(res => {
       this.processingStatus = "Idle"
-      console.log(res)
+      this.f1= res.f1;
+      this.precision = res.precision
+      this.recall = res.recall
+      this.accuracy = res.accuracy
+      this.RMSE = res.RMSE
+      this.MAE = res.MAE
+      this.RMSPE  = res.RMSPE
+      this.MAPE = res.MAPE
+   
       }); 
   }
 

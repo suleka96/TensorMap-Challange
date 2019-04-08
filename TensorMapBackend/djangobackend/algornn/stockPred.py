@@ -4,9 +4,6 @@ import random
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import mean_squared_error,mean_absolute_error
-# from math import sqrt
-# import matplotlib as mplt
-# mplt.use('agg') # Must be before importing matplotlib.pyplot or pylab!
 np.random.seed(0)
 
 
@@ -28,7 +25,6 @@ hidden_activation = tf.nn.relu
 num_hidden =[]
 RNNType ="RNN"
 trainTestRatio = 20
-
 hiddenLayers = 2
 
 
@@ -161,8 +157,6 @@ def train_test():
                 }
 
                 train_loss, _ , value= sess.run([loss, minimize,val1], feed_dict=train_data_feed)
-                if iteration % 5 == 0:
-                iteration += 1
 
         saver = tf.train.Saver()
         saver.save(sess, "checkpoints_stock/stock_pred.ckpt")

@@ -7,19 +7,20 @@ import numpy as np
 from sklearn.metrics import f1_score, recall_score, precision_score, accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
-import matplotlib as mplt
-# mplt.use('agg') # Must be before importing matplotlib.pyplot or pylab!
-# import matplotlib.pyplot as plt
 
-batch_size = 70
-RNNSize = 5
-learning_rate = 0.003
-epoch = 2
-hidden_activation = tf.nn.relu
+
+
 embed_size = 150
-num_hidden = 2
-RNNType = "RNN"
-hiddenLayers = []
+batch_size = 64
+RNNSize=5
+learning_rate = 0.001
+epoch = 30 
+hidden_activation = tf.nn.relu
+num_hidden =[]
+RNNType ="RNN"
+trainTestRatio = 20
+hiddenLayers = 2
+outputLayer =3
 
 
 # without sequence length
@@ -142,16 +143,16 @@ def train_test():
 
         last_layer = outputs[:,-1]
 
-        if num_hidden >0:
+        if hiddenLayers >0:
 
-            for i in range(num_hidden):
+            for i in range(hiddenLayers):
                 layer_no = i + 1
                 # hidden layer
-                current_layer = tf.layers.dense(last_layer, units=25, activation=hidden_activation,name="hid_{}".format(layer_no))
+                current_layer = tf.layers.dense(last_layer, units=num_hidden[i], activation=hidden_activation,name="hid_{}".format(layer_no))
                 last_layer = current_layer
 
 
-        logit = tf.contrib.layers.fully_connected(last_layer, num_outputs=3, activation_fn=None)
+        logit = tf.contrib.layers.fully_connected(last_layer, num_outputs=outputLayer, activation_fn=None)
 
         cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits=logit, labels=labels_))
 
@@ -174,11 +175,6 @@ def train_test():
 
                 loss, states, _ = sess.run([cost, final_state, optimizer], feed_dict=feed)
 
-
-                if iteration % 5 == 0:
-                    print("Epoch: {}/{}".format(e, epoch),
-                          "Iteration: {}".format(iteration),
-                          "Train loss: {:.3f}".format(loss))
                 iteration += 1
         saver.save(sess, "checkpoints/sentiment.ckpt")
 
@@ -196,27 +192,48 @@ def train_test():
                     argmax_pred_array.append(np.argmax(predictions[i], 0))
                     argmax_label_array.append(np.argmax(test_y[i], 0))
 
-                print(len(argmax_pred_array))
-                print(len(argmax_label_array))
-
                 accuracy = accuracy_score(argmax_label_array, argmax_pred_array)
 
-                batch_f1 = f1_score(argmax_label_array, argmax_pred_array, average="macro")
+                f1 = f1_score(argmax_label_array, argmax_pred_array, average="macro")
 
-                batch_recall = recall_score(y_true=argmax_label_array, y_pred=argmax_pred_array, average='macro')
+                recall = recall_score(y_true=argmax_label_array, y_pred=argmax_pred_array, average='macro')
 
-                batch_precision = precision_score(argmax_label_array, argmax_pred_array, average='macro')
+                precision = precision_score(argmax_label_array, argmax_pred_array, average='macro')
 
-                print("-----------------testing test set-----------------------------------------")
-                print("Test accuracy: {:.3f}".format(accuracy))
-                print("F1 Score: {:.3f}".format(batch_f1))
-                print("Recall: {:.3f}".format(batch_recall))
-                print("Precision: {:.3f}".format(batch_precision))
+
+        obj = {}
+        obj['f1'] = f1
+        obj['precision'] = precision
+        obj['recall'] = recall
+        obj['accuracy'] = accuracy
+        obj['RMSE'] = None
+        obj['MAE'] = None
+        obj['MAPE'] = None
+        obj['RMSPE'] = None
+
+        return obj
 
 
 def RunModel20News(netInfo):
 
     global RNNSize,batch_size,init_learning_rate,max_epoch,hidden_activation,RNNType,hiddenLayers,outputLayer,num_hidden
 
-    train_test()
+    batch_size = netInfo['batchSize']
+    RNNSize=netInfo['rnnNodes']
+    init_learning_rate = netInfo['learningRate']
+    max_epoch = netInfo['epoch']
+    trainTestRatio = netInfo['trainTestRatio']
+    num_hidden =[netInfo['hLayer1'],netInfo['hLayer2'],netInfo['hLayer3']]
+    RNNType =netInfo['nnType']
+    outputLayer = netInfo['outputLayer']
+    hiddenLayers = netInfo['hiddenLayerNum']
+    hidden_activation = netInfo['activation']
+    if hidden_activation == "tanh":
+        hidden_activation = tf.nn.tanh
+    else:
+        hidden_activation = tf.nn.relu
+
+    obj = train_test()
+
+    return obj
 
