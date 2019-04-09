@@ -24,6 +24,9 @@ class responseConfig(models.Model):
     MAE = models.FloatField()    
     MAPE = models.FloatField()
     RMSPE = models.FloatField()
+    prediction = models.TextField()
+    true = models.TextField()
+
 
 
 
