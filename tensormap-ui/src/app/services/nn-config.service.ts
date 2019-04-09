@@ -12,7 +12,7 @@ export class NnConfigService {
   public learningRate =new BehaviorSubject(0.01)
   currentlearningRate = this.learningRate.asObservable();
 
-  public epoch =new BehaviorSubject(10)
+  public epoch =new BehaviorSubject(2)
   currentepoch = this.epoch.asObservable();
 
   public neuralNetType =new BehaviorSubject("RNN")
@@ -21,10 +21,10 @@ export class NnConfigService {
   public dataset =new BehaviorSubject("Stock Price")
   currentdataset = this.dataset.asObservable();
 
-  public trainTestRatio =new BehaviorSubject(20)
+  public trainTestRatio =new BehaviorSubject(10)
   currenttrainTestRatio = this.trainTestRatio.asObservable();
 
-  public batchSize =new BehaviorSubject(30)
+  public batchSize =new BehaviorSubject(40)
   currentbatchSize = this.batchSize.asObservable();
 
   public hidden1Nodes =new BehaviorSubject(1)
