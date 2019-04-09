@@ -104,20 +104,28 @@
   </div>
   <div id="page-content-wrapper">
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom sub-menu">
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <button class="btn btn-secondary" id="menu-toggle">Toggle Menu</button>
-            <button class="btn btn-secondary" id="menu-toggle" (click)="sendRNNData()">Execute</button>            
-        </div>
+        <button class="btn btn-secondary" id="menu-toggle">Toggle Menu</button>
+        <button class="btn btn-secondary" style="margin-left:1%" id="menu-toggle" (click)="sendRNNData()">Execute</button>            
+        
     </nav> 
 
-    <div class="container page-content">
+    <div class="container page-content" style="padding-left:20%">
         <app-neuralcanvas ></app-neuralcanvas>
+    </div>
+    <div class="container page-content">
+        <div  style="height:600px;width:600px;">
+        <canvas id="lineChart"  ></canvas>
+        </div>
     </div>
   </div>
 <div class="bg-light border-left" id="sidebar-wrapper-right">
     <div class="sidebar-heading"><b>Output</b> </div>
     <div class="list-group list-group-flush">
-            <a href="#" class="list-group-item list-group-item-action bg-light"> Status:{{processingStatus}}<br>
+            <a href="#" class="list-group-item list-group-item-action bg-light"> Status:{{processingStatus}} 
+                
+                <div class="lds-ellipsis" *ngIf="progress"><div></div><div></div><div></div><div></div></div>            
+                
+                <br>
             </a>
             <a href="#" class="list-group-item list-group-item-action bg-light">Problem Type:<br>
                 <span *ngIf=" dataset == '20 News Groups'">Classification</span>
@@ -128,7 +136,7 @@
                     <br>
                     politics,sports and religion
                 </span>
-                <span *ngIf=" dataset == 'Stock Price'">Forecasts Stock Price</span>
+                <span *ngIf=" dataset == 'Stock Price'">Forecasts Stock  Price</span>
             </a>
             <a href="#" class="list-group-item list-group-item-action bg-light">Metrics
               <div *ngIf=" dataset == '20 News Groups'">  
@@ -138,10 +146,10 @@
               <a href="#" class=" list-group-item-action bg-light">Recall: {{recall}}</a><br>
               </div>
               <div *ngIf=" dataset == 'Stock Price'">  
-                  <a href="#" class=" list-group-item-action bg-light">MAE: {{MAE}}</a><br>
-                  <a href="#" class=" list-group-item-action bg-light">RMSE: {{RMSE}}</a><br>
-                  <a href="#" class=" list-group-item-action bg-light">MAPE: {{MAPE}}</a><br>
-                  <a href="#" class=" list-group-item-action bg-light">RMSPE: {{RMSPE}}</a><br>
+                  <a href="#" class=" list-group-item-action bg-light">MAE: <br> {{MAE}}</a><br>
+                  <a href="#" class=" list-group-item-action bg-light">RMSE: <br> {{RMSE}}</a><br>
+                  <a href="#" class=" list-group-item-action bg-light">MAPE: <br>  {{MAPE}}</a><br>
+                  <a href="#" class=" list-group-item-action bg-light">RMSPE: <br> {{RMSPE}}</a><br>
               </div>
             </a>                           
         </div>
