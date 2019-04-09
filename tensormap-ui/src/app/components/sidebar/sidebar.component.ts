@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ArrayType } from '@angular/compiler/src/output/output_ast';
 import { NnConfigService } from '../../services/nn-config.service';
 import { DataExchnageService } from '../../services/data-exchnage.service';
+import {Chart} from 'chart.js';
+
 
 declare var $:any;
 
@@ -11,7 +13,8 @@ declare var $:any;
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit { 
-
+  public progress:boolean = false;
+  LineChart:any;
   hidden1 = false;
   hidden2 = false;
   hidden3 = false;
@@ -26,17 +29,19 @@ export class SidebarComponent implements OnInit {
   activation = "Tanh" ;
   hiddenlayer = 0;
   learningRate = 0.01;
-  epoch = 10 ;
+  epoch = 2 ;
   dataset = "Stock Price";
   neuralNetType = "RNN" ;
   trainTestRatio = 10;
-  batchSize = 1;
+  batchSize = 40;
   hidden1Nodes = 1;
   hidden2Nodes = 1;
   hidden3Nodes = 1;
   outputNodes = 1;
   nnNodes = 1;
-  processingStatus = " Idle"
+  processingStatus = " Idle";
+  prediction : any;
+  true :any;
 
   constructor(private nnService:NnConfigService,private dataExchange:DataExchnageService) { 
     
@@ -48,6 +53,7 @@ export class SidebarComponent implements OnInit {
       e.preventDefault();
       $("#wrapper").toggleClass("toggled");
     });
+    
   }
 
 
@@ -69,9 +75,11 @@ export class SidebarComponent implements OnInit {
     this.dataset=val
     if (val == "Stock Price"){
       this.nnService.changeOutputNodes(1)
+      this.outputNodes =1
     }
     else if(val == "20 News Groups"){
       this.nnService.changeOutputNodes(3)
+      this.outputNodes =3
     }
   }
   selectNNType(val: any){
@@ -137,6 +145,18 @@ export class SidebarComponent implements OnInit {
 
   sendRNNData(event){
     this.processingStatus = "Processing"
+    this.progress = true;
+
+    if (this.LineChart) this.LineChart.destroy();
+
+    this.f1=null;
+    this.precision = null
+    this.recall = null
+    this.accuracy =null
+    this.RMSE = null
+    this.MAE = null
+    this.RMSPE  =null
+    this.MAPE = null
 
     var object = {};
     object['rnnNodes'] = this.nnNodes;
@@ -155,6 +175,7 @@ export class SidebarComponent implements OnInit {
 
     this.dataExchange.sendPostRequest(object).subscribe(res => {
       this.processingStatus = "Idle"
+      this.progress = false;
       this.f1= res.f1;
       this.precision = res.precision
       this.recall = res.recall
@@ -163,8 +184,69 @@ export class SidebarComponent implements OnInit {
       this.MAE = res.MAE
       this.RMSPE  = res.RMSPE
       this.MAPE = res.MAPE
-   
-      }); 
+      this.prediction = res.prediction
+      this.true = res.true
+
+      console.log(res)
+
+      this.drawChart()   
+      });    
+  }
+  
+  
+
+  drawChart(){
+
+    var output:any = [];
+    for (var value=0; value<50; value+=1) {
+      output.push(value);
+    }
+
+    console.log(this.true)
+    console.log(this.prediction)
+    console.log(output.length)
+
+
+
+    this.LineChart = new Chart('lineChart', {
+    type: 'line',
+    data: {
+     labels:  output,
+     datasets: [
+     {
+      label: 'Prediction',
+      data: this.prediction,
+      fill:false,
+      lineTension:0.01,
+      borderColor:"yellow",
+      borderWidth: 1
+     },
+     {
+      label: 'Truth',
+      data:this.true,
+      fill:false,
+      lineTension:0.01,
+      borderColor:"red",
+      borderWidth: 1
+  }
+    ]
+    }, 
+    options: {
+     title:{
+         text:"True Values Vs Predictions",
+         display:true
+     },
+     scales: {
+         yAxes: [{
+             ticks: {
+                 beginAtZero:false
+                 
+             }
+         }]
+     }
+    }
+    });
+
   }
 
 
