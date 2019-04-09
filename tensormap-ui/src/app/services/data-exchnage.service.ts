@@ -15,7 +15,7 @@ export class DataExchnageService {
 
   sendPostRequest(obj: any): Observable<any> {
     return this.http.post(this.url, obj).pipe(
-      timeout(200000) //5 seconds
+      timeout(200000) 
   );
   }
 }
