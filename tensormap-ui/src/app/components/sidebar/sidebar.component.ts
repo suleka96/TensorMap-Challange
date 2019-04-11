@@ -198,7 +198,7 @@ export class SidebarComponent implements OnInit {
   drawChart(){
 
     var output:any = [];
-    for (var value=0; value<50; value+=1) {
+    for (var value=0; value<this.true.length; value+=1) {
       output.push(value);
     }
 
